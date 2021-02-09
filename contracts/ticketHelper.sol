@@ -4,7 +4,7 @@ import "./ticketFactory.sol";
 
 contract TicketHelper is TicketFactory {
     function getTicketsByOwner(address _owner) external view returns(uint[] memory) {
-        uint[] memory result = new uint[](ownerTicketCount);   
+        uint[] memory result = new uint[](ownerTicketCount[_owner]);   
         uint counter;
 
         for(uint i = 0; i < tickets.length; i++) {
@@ -13,5 +13,11 @@ contract TicketHelper is TicketFactory {
                 counter++;
             }
         }
+
+        return result;
+    }
+
+    function getEventsLength() external view returns(uint) {
+        return events.length;
     }
 }

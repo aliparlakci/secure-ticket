@@ -4,7 +4,7 @@ import "./ownable.sol";
 
 contract TicketFactory is Ownable {
     
-    event NewEvent(uint eventId, string eventName, uint date);
+    event NewEvent(uint eventId, string eventName, uint date, address creator);
     event NewTicket(uint ticketId, uint eventId, string eventName, uint32 date);
     
     struct Ticket {
@@ -15,13 +15,14 @@ contract TicketFactory is Ownable {
     struct Event {
         string eventName;
         uint32 date;
+        address creator;
+        uint32 totalTickets;
     }
     
     Ticket[] public tickets;
     Event[] public events;
     
     mapping (uint => address) public ticketToOwner;
-    mapping (uint => address) public eventToCreator;
     mapping (uint => uint) public eventTicketCount;
     mapping (address => uint) public ownerTicketCount;
     
@@ -31,16 +32,15 @@ contract TicketFactory is Ownable {
     }
     
     function createEvent(string memory _eventName, uint32 _date) public {
-        uint id = events.push(Event(_eventName, _date)) - 1;
-        eventToCreator[id] = msg.sender;
-        emit NewEvent(id, _eventName, _date);
+        uint id = events.push(Event(_eventName, _date, msg.sender, 0)) - 1;
+        emit NewEvent(id, _eventName, _date, msg.sender);
     }
     
     function createTicket(uint _eventId) public eventExists(_eventId) {
         uint id = tickets.push(Ticket(_eventId, 0)) - 1;
         ticketToOwner[id] = msg.sender; 
         ownerTicketCount[msg.sender]++;
-        eventTicketCount[_eventId]++;
+        events[_eventId].totalTickets++;
         emit NewTicket(id, _eventId, events[_eventId].eventName, events[_eventId].date);
     }
 }
