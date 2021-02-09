@@ -30,13 +30,18 @@ contract TicketFactory is Ownable {
         require(events.length >= eventId, "Event does not exist!");
         _;
     }
+
+    modifier eventOwner(uint _eventId) {
+        require(events[_eventId].creator == msg.sender);
+        _;
+    }
     
     function createEvent(string memory _eventName, uint32 _date) public {
         uint id = events.push(Event(_eventName, _date, msg.sender, 0)) - 1;
         emit NewEvent(id, _eventName, _date, msg.sender);
     }
     
-    function createTicket(uint _eventId) public eventExists(_eventId) {
+    function createTicket(uint _eventId) public eventExists(_eventId) eventOwner(_eventId){
         uint id = tickets.push(Ticket(_eventId, 0)) - 1;
         ticketToOwner[id] = msg.sender; 
         ownerTicketCount[msg.sender]++;

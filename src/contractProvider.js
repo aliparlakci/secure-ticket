@@ -9,7 +9,7 @@ function ContractProvider({ children }) {
 
     const secureTicketAddress = ABI.networks["5777"].address;
 
-    const [contract, setContract] = useState();
+    const [contract, setContract] = useState(null);
 
     useEffect(() => {
         if (typeof window.web3 !== 'undefined') {
@@ -20,7 +20,7 @@ function ContractProvider({ children }) {
         }
     }, []);
 
-    return <contractContext.Provider value={contract}>{children}</contractContext.Provider>;
+    return <contractContext.Provider value={contract}>{contract !== null && children}</contractContext.Provider>;
 }
 
 const useContract = () => useContext(contractContext);

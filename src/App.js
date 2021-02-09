@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { Link, Route, Switch } from "react-router-dom";
 import "./App.css";
 import { useContract } from "./contractProvider";
-import MetamaskProvider, { useMetamask } from "./metamaskProvider";
+import EventsList from "./EventList";
+import { useMetamask } from "./metamaskProvider";
+import TicketList from "./TicketList";
 
 function App() {
-  const [tickets, setTickets] = useState([]);
-  const [events, setEvents] = useState([]);
+  
   const account = useMetamask();
   const secureTicket = useContract();
 
@@ -13,29 +15,18 @@ function App() {
     contract.methods.createEvent("Ajda Pekkan", 1612850449).send({ from: account }).then(console.log);
   }
 
-  const getEvents = async (contract) => {
-    const length = await contract.methods.getEventsLength().call();
-    console.log(length);
-
-    const newEvents = []
-    for (let i = 0; i < length; i++) {
-      const event = await contract.methods.events(i).call();
-      newEvents.push(event);
-    }
-
-    setEvents(newEvents);
-  }
-  
-  useEffect(() => {
-    if (secureTicket) {
-      getEvents(secureTicket);
-    }
-  }, [secureTicket])
-
   return (
     <div>
-      {account}
-      <button onClick={() => createEvent(secureTicket)}>CreateEvent</button>
+      <Link to="/events">Events</Link>{" "}
+      <Link to="/tickets">My Tickets</Link>
+      <Switch>
+        <Route path="/tickets">
+          <TicketList />
+        </Route>
+        <Route path="/events">
+          <EventsList />
+        </Route>
+      </Switch>
     </div>
   );
 }
