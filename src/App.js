@@ -6,6 +6,8 @@ import { useMetamask } from "./metamaskProvider";
 import TicketList from "./TicketList";
 
 import styles from "./App.module.css";
+import MyTicketsList from "./MyTicketsList";
+import MarketList from "./MarketList";
 
 function App() {
 
@@ -24,20 +26,30 @@ function App() {
 
         </div>
         <div className={styles.link}>
+          <Link to="/market">Market</Link>
+
+        </div>
+        <div className={styles.link}>
           <Link to="/tickets">My Tickets</Link>
 
         </div>
       </div>
-      <Switch>
-        <div className={styles.content}>
+      <div className={styles.contents}>
+        <Switch>
           <Route path="/tickets">
-            <TicketList />
+            <h2>My Tickets</h2>
+            <MyTicketsList />
           </Route>
           <Route path="/events">
+            <h2>Events</h2>
             <EventsList />
           </Route>
-        </div>
-      </Switch>
+          <Route path="/market">
+            <h2>Market</h2>
+            <MarketList />
+          </Route>
+        </Switch>
+      </div>
     </div>
   );
 }

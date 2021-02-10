@@ -1,38 +1,41 @@
 .container {
-    background-color: lightgray;
-    width: 1024px;
-    margin: auto;
-    margin-top: 1em;
-    border-radius: 36px;
-    padding: 2em;
-    display: flex;
-    flex-direction: row;
+  background-color: white;
+  width: fit-content;
+  margin: auto;
+  margin-top: 1em;
+  border-radius: 36px;
+  padding: 2em;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 4px 4px blue;
 }
 
 .menu__container {
-    display: flex;
-    flex-direction: column;
-    background-color: lightgray;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
 }
-.content {
-    margin: 0 0 0 2em;
-
+.contents {
+  margin: 0 0 0 2em;
 }
 
 .link {
-    padding: 1em;
-    background-color: white;
-    border-radius: 16px;
-    margin-bottom: 1em;
-    text-align: centerm;
+  padding: 1em;
+  background-color: lightgray;
+  border-radius: 16px;
+  margin-bottom: 1em;
+  text-align: centerm;
+  box-shadow: 4px 4px blue;
 }
 
 .link a {
-    color: black;
-    text-decoration: none;
+  color: black;
+  text-decoration: none;
 }
 
+.link:active,
 .link:hover {
-    transform: translateX(-4px) translateY(-4px);
-    transition: 0.1s;
+  transform: translateX(4px) translateY(4px);
+  transition: 0.2s;
+  box-shadow: none;
 }

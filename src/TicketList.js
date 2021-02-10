@@ -1,43 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { useContract } from './contractProvider';
-import { useMetamask } from './metamaskProvider';
+import React from "react";
+import styles from "./TicketList.module.css";
 
-const TicketList = () => {
-
-    const secureTicket = useContract();
-    const account = useMetamask();
-
-    const [tickets, setTickets] = useState([]);
-
-    const getTickets = async () => {
-        const ticketIds = await secureTicket.methods.getTicketsByOwner(account).call();
-        
-        setTickets(ticketIds)
-        // const newTickets = []
-        // ticketIds.forEach(async (ticketId, index) => {
-        //     const ticket = await secureTicket.methods.tickets(ticketId).call()
-        //     const {eventName, date} = await secureTicket.methods.events(ticket.eventId).call()
-
-        //     newTickets.push({...ticket, eventName, date: new Date(date*1000) })
-        //     //newTickets.push(ticket)
-        // })
-        // setTickets(newTickets)
-    }
-
-    useEffect(() => {
-        if (secureTicket)
-        {
-            getTickets();
-        }
-    }, [secureTicket])
-
-    return <div>
-        {JSON.stringify(tickets)}
-        {/* {tickets.map(({eventName, date}, index) => <div id={index}>
-            <span>{eventName}</span>
-            <span>{JSON.stringify(date)}</span>
-        </div>)} */}
-    </div>
-}
+const TicketList = ({ data }) => {
+    return (
+        <div>
+            <table className="table">
+                <tr className={styles.row}>
+                    <td>No</td>
+                    <td>Name</td>
+                    <td>Date</td>
+                    <td>Transfer Count</td>
+                </tr>
+                {data.map((ticket, index) => (
+                    <tr>
+                        <td className={styles.cell}>{index + 1}</td>
+                        <td className={styles.cell}>{ticket.eventName}</td>
+                        <td className={styles.cell}>{`${ticket.date.getDate()}/${ticket.date.getMonth() + 1
+                            }/${ticket.date.getFullYear()}`}</td>
+                        <td className={styles.cell}>{ticket.transferCount}</td>
+                    </tr>
+                ))}
+            </table>
+        </div>
+    );
+};
 
 export default TicketList;

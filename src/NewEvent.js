@@ -24,11 +24,12 @@ const NewEvent = () => {
 
     return (
         <form onSubmit={handleSubmit}>
-            Event Name: <input type="text" name="name"/>
+            <div className="mb-3">
+            <label className="form-labe">Event name</label> <input type="text" name="name" className="form-control" />
+            </div>
+            <label className="form-labe">Date</label> <input type="date" name="date" className="form-control"/>
             <br />
-            Date: <input type="date" name="date"/>
-            <br />
-            <input type="submit" value="Create" disabled={loading}/>
+            <input type="submit" value="Create" disabled={loading} className="btn btn-primary"/>
         </form>
     )
 }

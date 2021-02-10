@@ -8,15 +8,15 @@ const Event = ({ id, event: { creator, eventName, totalTickets } }) => {
     const account = useMetamask();
 
     const createTicket = () => {
+        console.log(id)
         secureTicket.methods.createTicket(id).send({ from: account })
             .on("receipt", () => console.log("Ticket created!"))
             .on("error", console.log)
     }
 
-    return (<div>
-        {creator.toLowerCase() === account.toLowerCase() && <button type="button" class="btn btn-primary" onClick={createTicket}>Create Ticket</button>}
-        <li className="list-group-item">{id}{" "}{eventName}{" "}{totalTickets}</li>
-    </div>)
+    return (
+        <tr><td>{creator.toLowerCase() === account.toLowerCase() && <button onClick={createTicket} className="btn btn-link">Create Ticket</button>}</td><td>{eventName}</td><td>{totalTickets}</td></tr>
+    )
 }
 
 export default Event;

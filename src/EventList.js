@@ -43,12 +43,18 @@ const EventsList = () => {
     }, [])
 
 
-    return (<><NewEvent />
-        {events.map((event, index) =>
-            <ul className="list-group">
+    return (<>
+        <NewEvent />
 
-                <Event id={index} event={event} />
-            </ul>)}
+        <table>
+            <tr>
+                <td></td>
+                <td>Event Name</td>
+                <td>Ticket Count</td>
+            </tr>
+            {events.map((event, index) =>
+                <Event key={index} id={index} event={event} />)}
+        </table>
     </>)
 }
 
