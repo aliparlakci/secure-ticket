@@ -3,7 +3,7 @@ pragma solidity >=0.5.0 <0.6.0;
 import "./ticketFactory.sol";
 
 contract TicketHelper is TicketFactory {
-    function getTicketsByOwner(address _owner) external view returns(uint[] memory) {
+    function getTicketsByOwner(address _owner) external view returns(uint) {
         uint[] memory result = new uint[](ownerTicketCount[_owner]);   
         uint counter;
 
@@ -14,7 +14,7 @@ contract TicketHelper is TicketFactory {
             }
         }
 
-        return result;
+        return result.length;
     }
 
     function getEventsLength() external view returns(uint) {

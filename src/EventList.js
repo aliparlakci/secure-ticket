@@ -38,14 +38,17 @@ const EventsList = () => {
 
     useEffect(() => {
         secureTicket.events.NewEvent().on("data", async ({ returnValues: { eventId, eventName, date, creator } }) => {
-            setEvents(events => [...events, { eventId, eventName, date, creator, totalTickets: 0}])
+            setEvents(events => [...events, { eventId, eventName, date, creator, totalTickets: 0 }])
         })
     }, [])
 
 
     return (<><NewEvent />
         {events.map((event, index) =>
-        <Event id={index} event={event} />)}
+            <ul className="list-group">
+
+                <Event id={index} event={event} />
+            </ul>)}
     </>)
 }
 

@@ -14,8 +14,8 @@ const Event = ({ id, event: { creator, eventName, totalTickets } }) => {
     }
 
     return (<div>
-        {creator.toLowerCase() === account.toLowerCase() && <button onClick={createTicket}>Create Ticket</button>}
-        {id}{" "}{eventName}{" "}{totalTickets}
+        {creator.toLowerCase() === account.toLowerCase() && <button type="button" class="btn btn-primary" onClick={createTicket}>Create Ticket</button>}
+        <li className="list-group-item">{id}{" "}{eventName}{" "}{totalTickets}</li>
     </div>)
 }
 

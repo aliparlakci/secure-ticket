@@ -11,16 +11,17 @@ const TicketList = () => {
 
     const getTickets = async () => {
         const ticketIds = await secureTicket.methods.getTicketsByOwner(account).call();
+        
+        setTickets(ticketIds)
+        // const newTickets = []
+        // ticketIds.forEach(async (ticketId, index) => {
+        //     const ticket = await secureTicket.methods.tickets(ticketId).call()
+        //     const {eventName, date} = await secureTicket.methods.events(ticket.eventId).call()
 
-        const newTickets = []
-        ticketIds.forEach(async (ticketId, index) => {
-            const ticket = await secureTicket.methods.tickets(ticketId).call()
-            const {eventName, date} = await secureTicket.methods.events(ticket.eventId).call()
-
-            newTickets.push({...ticket, eventName, date: new Date(date*1000) })
-            //newTickets.push(ticket)
-        })
-        setTickets(newTickets)
+        //     newTickets.push({...ticket, eventName, date: new Date(date*1000) })
+        //     //newTickets.push(ticket)
+        // })
+        // setTickets(newTickets)
     }
 
     useEffect(() => {
@@ -28,14 +29,14 @@ const TicketList = () => {
         {
             getTickets();
         }
-    }, [])
+    }, [secureTicket])
 
     return <div>
         {JSON.stringify(tickets)}
-        {tickets.map(({eventName, date}, index) => <div id={index}>
+        {/* {tickets.map(({eventName, date}, index) => <div id={index}>
             <span>{eventName}</span>
             <span>{JSON.stringify(date)}</span>
-        </div>)}
+        </div>)} */}
     </div>
 }
 

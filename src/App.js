@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link, Route, Switch } from "react-router-dom";
-import "./App.css";
 import { useContract } from "./contractProvider";
 import EventsList from "./EventList";
 import { useMetamask } from "./metamaskProvider";
 import TicketList from "./TicketList";
 
+import styles from "./App.module.css";
+
 function App() {
-  
+
   const account = useMetamask();
   const secureTicket = useContract();
 
@@ -16,16 +17,26 @@ function App() {
   }
 
   return (
-    <div>
-      <Link to="/events">Events</Link>{" "}
-      <Link to="/tickets">My Tickets</Link>
+    <div className={styles.container}>
+      <div className={styles.menu__container}>
+        <div className={styles.link}>
+          <Link to="/events">Events</Link>
+
+        </div>
+        <div className={styles.link}>
+          <Link to="/tickets">My Tickets</Link>
+
+        </div>
+      </div>
       <Switch>
-        <Route path="/tickets">
-          <TicketList />
-        </Route>
-        <Route path="/events">
-          <EventsList />
-        </Route>
+        <div className={styles.content}>
+          <Route path="/tickets">
+            <TicketList />
+          </Route>
+          <Route path="/events">
+            <EventsList />
+          </Route>
+        </div>
       </Switch>
     </div>
   );
