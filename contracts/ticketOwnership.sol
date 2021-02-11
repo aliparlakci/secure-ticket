@@ -16,26 +16,15 @@ contract TicketOwnership is ERC721, TicketHelper {
         return ticketToOwner[_tokenId];
     }
 
-    function _transfer(
-        address _from,
-        address _to,
-        uint256 _tokenId
-    ) private isTransferrable(_tokenId) {
+    function _transfer(address _from, address _to, uint256 _tokenId) private isTransferrable(_tokenId) {
         ownerTicketCount[_to]++;
         ownerTicketCount[_from]--;
         ticketToOwner[_tokenId] = msg.sender;
         emit Transfer(_from, _to, _tokenId);
     }
 
-    function transferFrom(
-        address _from,
-        address _to,
-        uint256 _tokenId
-    ) external payable {
-        require(
-            ticketToOwner[_tokenId] == msg.sender ||
-                ticketApprovals[_tokenId] == msg.sender
-        );
+    function transferFrom(address _from, address _to, uint256 _tokenId) external payable {
+        require(ticketToOwner[_tokenId] == msg.sender || ticketApprovals[_tokenId] == msg.sender);
         _transfer(_from, _to, _tokenId);
     }
 

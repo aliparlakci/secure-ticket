@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useContract } from './contractProvider';
+import { useContract } from '../Providers/contractProvider';
 import Event from './Event';
-import NewEvent from './NewEvent';
 
-const EventsList = () => {
-    const secureTicket = useContract();
+const EventsPage = () => {
+    const {contract: secureTicket} = useContract()
 
     const [events, setEvents] = useState([]);
 
     const getEvents = async (contract) => {
         const length = await contract.methods.getEventsLength().call();
-        console.log(length);
 
         const newEvents = []
         for (let i = 0; i < length; i++) {
@@ -25,7 +23,7 @@ const EventsList = () => {
         if (secureTicket) {
             getEvents(secureTicket);
         }
-    }, [secureTicket])
+    }, [])
 
     useEffect(() => {
         secureTicket.events.NewTicket().on("data", async ({ returnValues: { eventId } }) => {
@@ -37,20 +35,19 @@ const EventsList = () => {
 
 
     useEffect(() => {
-        secureTicket.events.NewEvent().on("data", async ({ returnValues: { eventId, eventName, date, creator } }) => {
-            setEvents(events => [...events, { eventId, eventName, date, creator, totalTickets: 0 }])
+        secureTicket.events.NewEvent().on("data", async ({ returnValues: { eventId, eventName, date, creator, price } }) => {
+            setEvents(events => [...events, { eventId, eventName, date, creator, totalTickets: 0, price }])
         })
     }, [])
 
 
     return (<>
-        <NewEvent />
-
         <table>
             <tr>
                 <td></td>
                 <td>Event Name</td>
-                <td>Ticket Count</td>
+                <td style={{textAlign: "center"}}>Price</td>
+                <td style={{textAlign: "center"}}>Ticket Count</td>
             </tr>
             {events.map((event, index) =>
                 <Event key={index} id={index} event={event} />)}
@@ -58,4 +55,4 @@ const EventsList = () => {
     </>)
 }
 
-export default EventsList;
+export default EventsPage;

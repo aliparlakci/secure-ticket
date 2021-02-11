@@ -4,8 +4,8 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { MetamaskProvider } from "./metamaskProvider";
-import { ContractProvider } from "./contractProvider";
+import { MetamaskProvider } from "./Providers/metamaskProvider";
+import { ContractProvider } from "./Providers/contractProvider";
 
 ReactDOM.render(
   <React.StrictMode>
