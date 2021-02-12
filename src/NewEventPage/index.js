@@ -21,7 +21,7 @@ const NewEvent = () => {
         const name = event.target.name.value;
         const date = event.target.date.valueAsNumber / 1000;
         const price = event.target.price.value;
-        secureTicket.methods.createEvent(name, date, web3js.utils.toWei(price, "ether")).send({from: account}).then(() => history.push("/events"))
+        secureTicket.methods.createEvent(name, date, web3js.utils.toWei(price, "ether")).send({from: account}).then(() => history.push("/events")).catch(() => setLoading(false))
     }
 
     return (

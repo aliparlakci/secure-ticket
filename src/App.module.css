@@ -1,5 +1,6 @@
 .container {
   background-color: white;
+  min-width: 768px;
   width: fit-content;
   margin: auto;
   margin-top: 1em;

@@ -1,15 +1,15 @@
 pragma solidity >=0.5.0 <0.6.0;
 
 import "./ownable.sol";
+import "./erc721.sol";
 
-contract TicketFactory is Ownable {
+contract TicketFactory is Ownable, ERC721 {
     
     event NewEvent(uint eventId, string eventName, uint date, address creator, uint price);
     event NewTicket(uint ticketId, uint eventId, string eventName, uint32 date, address creator, uint price);
     
     struct Ticket {
         uint eventId;
-        uint8 transferCount;
         uint price;
     }
     
@@ -43,9 +43,9 @@ contract TicketFactory is Ownable {
         _;
     }
 
-    function getTicket(uint _ticketId) external view ticketExists(_ticketId) returns (uint256, string memory, uint32, address, uint, uint8) {
+    function getTicket(uint _ticketId) external view ticketExists(_ticketId) returns (uint256, string memory, uint32, address, uint) {
         Event memory event_ = events[tickets[_ticketId].eventId];
-        return (_ticketId, event_.eventName, event_.date, event_.creator, event_.price, tickets[_ticketId].transferCount);
+        return (_ticketId, event_.eventName, event_.date, event_.creator, event_.price);
     }
 
     function getEvent(uint _eventId) external view eventExists(_eventId) returns (string memory, uint32, address, uint32) {
@@ -58,10 +58,14 @@ contract TicketFactory is Ownable {
     }
     
     function createTicket(uint _eventId) external eventExists(_eventId) eventOwner(_eventId){
-        uint id = tickets.push(Ticket(_eventId, 0, events[_eventId].price)) - 1;
+        uint id = tickets.push(Ticket(_eventId, events[_eventId].price)) - 1;
+
         ticketToOwner[id] = msg.sender; 
         ownerTicketCount[msg.sender]++;
         events[_eventId].totalTickets++;
+        
+        _mint(msg.sender, id);
+        
         emit NewTicket(id, _eventId, events[_eventId].eventName, events[_eventId].date, msg.sender, events[_eventId].price);
     }
 }

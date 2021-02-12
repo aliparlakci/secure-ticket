@@ -14,7 +14,7 @@ const MetamaskProvider = ({ children }) => {
 
     useEffect(() => {
         signIn();
-    })
+    }, [])
 
     return (
         <metamaskContext.Provider value={account}>

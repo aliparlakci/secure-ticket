@@ -8,11 +8,11 @@ contract TicketHelper is TicketFactory {
         view
         returns (uint256[] memory)
     {
-        uint256[] memory result = new uint256[](ownerTicketCount[_owner]);
+        uint256[] memory result = new uint256[](balanceOf(_owner));
         uint256 counter;
 
         for (uint256 i = 0; i < tickets.length; i++) {
-            if (ticketToOwner[i] == _owner) {
+            if (ownerOf(i) == _owner) {
                 result[counter] = i;
                 counter++;
             }

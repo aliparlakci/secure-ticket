@@ -19,8 +19,8 @@ function MyTicketsPage() {
         }
         
         promises.forEach(async (promise) => {
-            const [id, eventName, date, creator, price, transferCount] = Object.values(await promise)
-            setTickets(tickets => [...tickets, { id, eventName, date: new Date(date*1000), creator, price, transferCount }]);
+            const [id, eventName, date, creator, price] = Object.values(await promise)
+            setTickets(tickets => [...tickets, { id, eventName, date: new Date(date*1000), creator, price }]);
         })
     }
 
